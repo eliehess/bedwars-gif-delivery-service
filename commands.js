@@ -51,4 +51,10 @@ export const KILLSTEAL_COMMAND = {
   name: 'killsteal',
   descripton: 'killsteal',
   type: 1,
-}
+};
+
+export const ANDREW_COMMAND = {
+  name: 'andrew',
+  descripton: 'andrew',
+  type: 1,
+};

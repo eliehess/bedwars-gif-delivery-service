@@ -7,6 +7,7 @@ import { VerifyDiscordRequest } from './utils.js';
 import {
   BED_COMMAND,
   KILLSTEAL_COMMAND,
+  ANDREW_COMMAND,
   HasGuildCommands,
 } from './commands.js';
 
@@ -42,7 +43,9 @@ app.post('/interactions', async function (req, res) {
       case 'bed':
         return handleBed(res, options);
       case 'killsteal':
-        return handleKillsteal(res,);
+        return handleKillsteal(res);
+      case 'andrew':
+        return handleAndrew(res);
       default:
         return handleDefault(res);
     } 
@@ -68,19 +71,10 @@ const handleBed = (res, options) => {
     }
   };
 
-  if (!options) {
-    return res.send({
-      type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
-      data: {
-        content: 'something went wrong with options :(',
-      },
-    });
-  }
-
   return res.send({
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
-      content: gifFinder(options[0].value),
+      content: options ? gifFinder(options[0].value) : 'something went wrong with options :(',
     },
   });
 };
@@ -92,7 +86,16 @@ const handleKillsteal = res => {
       content: 'https://imgur.com/a/jtPmOnZ',
     },
   });
-}
+};
+
+const handleAndrew = res => {
+  return res.send({
+    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+    data: {
+      content: 'https://imgur.com/a/X0du2by',
+    },
+  });
+};
 
 const handleDefault = res => {
   return res.send({
@@ -109,5 +112,7 @@ app.listen(PORT, () => {
   // Check if guild commands from commands.json are installed (if not, install them)
   HasGuildCommands(process.env.APP_ID, process.env.GUILD_ID, [
     BED_COMMAND,
+    KILLSTEAL_COMMAND,
+    ANDREW_COMMAND
   ]);
 });
