@@ -1,0 +1,5 @@
+node_modules/
+assets/
+.env
+package-lock.json
+OLD_README.md
