@@ -9,6 +9,7 @@ import {
   KILLSTEAL_COMMAND,
   ANDREW_COMMAND,
   HasGuildCommands,
+  REN_COMMAND,
 } from './commands.js';
 
 // Create an express app
@@ -46,6 +47,8 @@ app.post('/interactions', async function (req, res) {
         return handleKillsteal(res);
       case 'andrew':
         return handleAndrew(res);
+      case 'ren':
+        return handleRen(res);
       default:
         return handleDefault(res);
     } 
@@ -97,6 +100,15 @@ const handleAndrew = res => {
   });
 };
 
+const handleRen = res => {
+  return res.send({
+    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+    data: {
+      content: 'https://imgur.com/a/m4fHG58',
+    },
+  });
+};
+
 const handleDefault = res => {
   return res.send({
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
@@ -113,6 +125,7 @@ app.listen(PORT, () => {
   HasGuildCommands(process.env.APP_ID, process.env.GUILD_ID, [
     BED_COMMAND,
     KILLSTEAL_COMMAND,
-    ANDREW_COMMAND
+    ANDREW_COMMAND,
+    REN_COMMAND
   ]);
 });

@@ -58,3 +58,9 @@ export const ANDREW_COMMAND = {
   descripton: 'andrew',
   type: 1,
 };
+
+export const REN_COMMAND = {
+  name: 'ren',
+  descripton: 'ren',
+  type: 1,
+};
