@@ -59,8 +59,32 @@ export const ANDREW_COMMAND = {
   type: 1,
 };
 
+export const ARJUN_COMMAND = {
+  name: 'arjun',
+  descripton: 'arjun',
+  type: 1,
+};
+
+export const ELIE_COMMAND = {
+  name: 'elie',
+  descripton: 'elie',
+  type: 1,
+};
+
+export const GARRETT_COMMAND = {
+  name: 'garrett',
+  descripton: 'garrett',
+  type: 1,
+};
+
 export const REN_COMMAND = {
   name: 'ren',
   descripton: 'ren',
+  type: 1,
+};
+
+export const SAYUJ_COMMAND = {
+  name: 'sayuj',
+  descripton: 'sayuj',
   type: 1,
 };

@@ -5,12 +5,41 @@ import {
 } from 'discord-interactions';
 import { VerifyDiscordRequest } from './utils.js';
 import {
+  HasGuildCommands,
   BED_COMMAND,
   KILLSTEAL_COMMAND,
   ANDREW_COMMAND,
-  HasGuildCommands,
+  ARJUN_COMMAND,
+  ELIE_COMMAND,
+  GARRETT_COMMAND,
   REN_COMMAND,
+  SAYUJ_COMMAND,
 } from './commands.js';
+
+const gifs = {
+  ANDREW: 'https://imgur.com/a/nXDzYQS',
+  ANDREW_ANSWER: 'https://imgur.com/a/X0du2by',
+  ANDREW_IGNORE: 'https://imgur.com/a/0i2vhki',
+  ANDREW_JUICE: 'https://imgur.com/a/55JeHRp',
+  ANDREW_POOL: 'https://imgur.com/a/3EVvtYz',
+  ARJUN_POWERS: 'https://imgur.com/a/GFO4tn9',
+  BLUE_BED: 'https://imgur.com/a/Wufpb1w',
+  ELIE_EXPLODE: 'https://imgur.com/a/J8UCmrs',
+  GARRETT_BEDWARZ: 'https://imgur.com/a/ocQttGL',
+  GREEN_BED: 'https://imgur.com/a/CH56sbR',
+  KILLSTEAL: 'https://imgur.com/a/jtPmOnZ',
+  PINK_APPLE: 'https://imgur.com/a/2CG3U45',
+  POOP_BED: 'https://imgur.com/a/MH4cGFm',
+  RED_BED: 'https://imgur.com/a/tcEzGmi',
+  REN_ANIME: 'https://imgur.com/a/eOWeZEp',
+  REN_EGG: 'https://media.giphy.com/media/y7Ee4XQFLA3ZpijcUU/giphy.gif',
+  REN_MOMENT: 'https://imgur.com/a/m4fHG58',
+  SAYUJ_DEEPFRIED: 'https://imgur.com/a/TGxt4uD',
+  SAYUJ_CONSPIRACY: 'https://imgur.com/a/WMHoThO',
+  SAYUJ_FIREBALL: 'https://imgur.com/YAD8uEh',
+  SAYUJ_MICROWAVE: 'https://imgur.com/a/6BQWJj2',
+  YELLOW_BED: 'https://imgur.com/a/LT4a0dU',
+}
 
 // Create an express app
 const app = express();
@@ -46,9 +75,17 @@ app.post('/interactions', async function (req, res) {
       case 'killsteal':
         return handleKillsteal(res);
       case 'andrew':
-        return handleAndrew(res);
+        return handleAndrew(res, options);
+      case 'arjun':
+        return handleArjun(res, options);
+      case 'elie':
+        return handleElie(res, options);
+      case 'garrett':
+        return handleGarrett(res, options);
       case 'ren':
-        return handleRen(res);
+        return handleRen(res, options);
+      case 'sayuj':
+        return handleSayuj(res, options);
       default:
         return handleDefault(res);
     } 
@@ -57,27 +94,29 @@ app.post('/interactions', async function (req, res) {
 
 const handleBed = (res, options) => {
   const gifFinder = val => {
-    switch (val) {
-      case 'blue':
-        return 'https://imgur.com/a/Wufpb1w';
-      case 'red':
-        return 'https://imgur.com/a/tcEzGmi';
-      case 'green':
-        return 'https://imgur.com/a/CH56sbR';
-      case 'yellow':
-        return 'https://imgur.com/a/LT4a0dU';
-      case 'pink':
-        return 'https://imgur.com/a/2CG3U45';
-      case 'poop':
-      default:
-        return 'https://imgur.com/a/MH4cGFm';
+    if (val && val[0] && val[0].value) {
+      switch (val[0].value.toLowerCase()) {
+        case 'blue':
+          return gifs.BLUE_BED;
+        case 'red':
+          return gifs.RED_BED;
+        case 'green':
+          return gifs.GREEN_BED;
+        case 'yellow':
+          return gifs.YELLOW_BED;
+        case 'pink':
+          return gifs.PINK_APPLE;
+        case 'poop':
+          return gifs.POOP_BED;
+      }
     }
+    return gifs.BLUE_BED;
   };
 
   return res.send({
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
-      content: options ? gifFinder(options[0].value) : 'something went wrong with options :(',
+      content: gifFinder(options),
     },
   });
 };
@@ -86,25 +125,137 @@ const handleKillsteal = res => {
   return res.send({
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
-      content: 'https://imgur.com/a/jtPmOnZ',
+      content: gifs.KILLSTEAL,
     },
   });
 };
 
-const handleAndrew = res => {
+const handleAndrew = (res, options) => {
+  const gifFinder = val => {
+    if (val && val[0] && val[0].value) {
+      switch (val[0].value.toLowerCase()) {
+        case 'answer':
+          return gifs.ANDREW_ANSWER;
+        case 'juice':
+          return gifs.ANDREW_JUICE;
+        case 'ignore':
+          return gifs.ANDREW_IGNORE;
+        case 'pool':
+          return gifs.ANDREW_POOL;
+      }
+    }
+    return gifs.ANDREW;
+  };
+
   return res.send({
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
-      content: 'https://imgur.com/a/X0du2by',
+      content: gifFinder(options),
     },
   });
 };
 
-const handleRen = res => {
+const handleArjun = (res, options) => {
+  const gifFinder = val => {
+    if (val && val[0] && val[0].value) {
+      switch (val[0].value.toLowerCase()) {
+        case 'powers':
+          return gifs.ARJUN_POWERS;
+      }
+    }
+    return gifs.ARJUN_POWERS;
+  };
+
   return res.send({
     type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
     data: {
-      content: 'https://imgur.com/a/m4fHG58',
+      content: gifFinder(options),
+    },
+  });
+};
+
+const handleElie = (res, options) => {
+  const gifFinder = val => {
+    if (val && val[0] && val[0].value) {
+      switch (val[0].value.toLowerCase()) {
+        case 'explode':
+          return gifs.ELIE_EXPLODE;
+      }
+    }
+    return gifs.ELIE_EXPLODE;
+  };
+
+  return res.send({
+    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+    data: {
+      content: gifFinder(options),
+    },
+  });
+};
+
+const handleGarrett = (res, options) => {
+  const gifFinder = val => {
+    if (val && val[0] && val[0].value) {
+      switch (val[0].value.toLowerCase()) {
+        case 'bedwarz':
+          return gifs.GARRETT_BEDWARZ;
+      }
+    }
+    return gifs.GARRETT_BEDWARZ;
+  };
+
+  return res.send({
+    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+    data: {
+      content: gifFinder(options),
+    },
+  });
+};
+
+const handleRen = (res, options) => {
+  const gifFinder = val => {
+    if (val && val[0] && val[0].value) {
+      switch (val[0].value.toLowerCase()) {
+        case 'anime':
+          return gifs.REN_ANIME;
+        case 'egg':
+          return gifs.REN_EGG;
+        case 'moment':
+          return gifs.REN_MOMENT;
+      }
+    }
+    return gifs.REN_MOMENT;
+  };
+
+  return res.send({
+    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+    data: {
+      content: gifFinder(options),
+    },
+  });
+};
+
+  const handleSayuj = (res, options) => {
+    const gifFinder = val => {
+      if (val && val[0] && val[0].value) {
+        switch (val[0].value.toLowerCase()) {
+          case 'deepfried':
+            return gifs.SAYUJ_DEEPFRIED;
+          case 'conspiracy':
+            return gifs.SAYUJ_CONSPIRACY;
+          case 'fireball':
+            return gifs.SAYUJ_FIREBALL;
+          case 'microwave':
+            return gifs.SAYUJ_MICROWAVE;
+        }
+      }
+      return gifs.SAYUJ_DEEPFRIED;
+    };
+
+  return res.send({
+    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+    data: {
+      content: gifFinder(options),
     },
   });
 };
@@ -126,6 +277,10 @@ app.listen(PORT, () => {
     BED_COMMAND,
     KILLSTEAL_COMMAND,
     ANDREW_COMMAND,
-    REN_COMMAND
+    ARJUN_COMMAND,
+    ELIE_COMMAND,
+    GARRETT_COMMAND,
+    REN_COMMAND,
+    SAYUJ_COMMAND
   ]);
 });
