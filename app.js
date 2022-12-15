@@ -10,6 +10,7 @@ import {
   KILLSTEAL_COMMAND,
   ANDREW_COMMAND,
   ARJUN_COMMAND,
+  AUSTIN_COMMAND,
   ELIE_COMMAND,
   GARRETT_COMMAND,
   REN_COMMAND,
@@ -19,12 +20,17 @@ import {
 const gifs = {
   ANDREW: 'https://imgur.com/a/nXDzYQS',
   ANDREW_ANSWER: 'https://imgur.com/a/X0du2by',
+  ANDREW_BALL: 'https://imgur.com/a/o6iDkc8',
   ANDREW_IGNORE: 'https://imgur.com/a/0i2vhki',
   ANDREW_JUICE: 'https://imgur.com/a/55JeHRp',
   ANDREW_POOL: 'https://imgur.com/a/3EVvtYz',
   ARJUN_POWERS: 'https://imgur.com/a/GFO4tn9',
+  AUSTIN_AVOID: 'https://imgur.com/9qhzBQz',
+  AUSTIN_PISS: 'https://imgur.com/oHOlbOD',
+  AUSTIN_THINK: 'https://imgur.com/NqiA6Da',
   BLUE_BED: 'https://imgur.com/a/Wufpb1w',
   ELIE_EXPLODE: 'https://imgur.com/a/J8UCmrs',
+  ELIE_ICECREAM: 'https://imgur.com/a/A823bBo',
   GARRETT_BEDWARZ: 'https://imgur.com/a/ocQttGL',
   GREEN_BED: 'https://imgur.com/a/CH56sbR',
   KILLSTEAL: 'https://imgur.com/a/jtPmOnZ',
@@ -78,6 +84,8 @@ app.post('/interactions', async function (req, res) {
         return handleAndrew(res, options);
       case 'arjun':
         return handleArjun(res, options);
+      case 'austin':
+        return handleAustin(res, options);
       case 'elie':
         return handleElie(res, options);
       case 'garrett':
@@ -136,6 +144,8 @@ const handleAndrew = (res, options) => {
       switch (val[0].value.toLowerCase()) {
         case 'answer':
           return gifs.ANDREW_ANSWER;
+        case 'ball':
+          return gifs.ANDREW_BALL;
         case 'juice':
           return gifs.ANDREW_JUICE;
         case 'ignore':
@@ -174,12 +184,39 @@ const handleArjun = (res, options) => {
   });
 };
 
+const handleAustin = (res, options) => {
+  const gifFinder = val => {
+    if (val && val[0] && val[0].value) {
+      switch (val[0].value.toLowerCase()) {
+        case 'avoid':
+          return gifs.AUSTIN_AVOID;
+        case 'piss':
+          return gifs.AUSTIN_PISS;
+        case 'think':
+          return gifs.AUSTIN_THINK;
+      }
+    }
+    return gifs.AUSTIN_PISS;
+  };
+
+  return res.send({
+    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+    data: {
+      content: gifFinder(options),
+    },
+  });
+};
+
 const handleElie = (res, options) => {
   const gifFinder = val => {
     if (val && val[0] && val[0].value) {
       switch (val[0].value.toLowerCase()) {
+        case 'ball':
+          return gifs.ANDREW_BALL;
         case 'explode':
           return gifs.ELIE_EXPLODE;
+        case 'icecream':
+          return gifs.ELIE_ICECREAM
       }
     }
     return gifs.ELIE_EXPLODE;
@@ -278,6 +315,7 @@ app.listen(PORT, () => {
     KILLSTEAL_COMMAND,
     ANDREW_COMMAND,
     ARJUN_COMMAND,
+    AUSTIN_COMMAND,
     ELIE_COMMAND,
     GARRETT_COMMAND,
     REN_COMMAND,

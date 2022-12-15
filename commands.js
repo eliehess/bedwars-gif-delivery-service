@@ -65,6 +65,12 @@ export const ARJUN_COMMAND = {
   type: 1,
 };
 
+export const AUSTIN_COMMAND = {
+  name: 'austin',
+  descripton: 'austin',
+  type: 1,
+};
+
 export const ELIE_COMMAND = {
   name: 'elie',
   descripton: 'elie',
