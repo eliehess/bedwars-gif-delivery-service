@@ -8,6 +8,7 @@ import {
   HasGuildCommands,
   BED_COMMAND,
   KILLSTEAL_COMMAND,
+  NO_U_COMMAND,
   ANDREW_COMMAND,
   ARJUN_COMMAND,
   AUSTIN_COMMAND,
@@ -24,22 +25,30 @@ const gifs = {
   ANDREW_IGNORE: 'https://imgur.com/a/0i2vhki',
   ANDREW_JUICE: 'https://imgur.com/a/55JeHRp',
   ANDREW_POOL: 'https://imgur.com/a/3EVvtYz',
+  ANDREW_VS_ELIE: 'https://imgur.com/a/ltI33wv',
   ARJUN_POWERS: 'https://imgur.com/a/GFO4tn9',
   AUSTIN_AVOID: 'https://imgur.com/9qhzBQz',
   AUSTIN_PISS: 'https://imgur.com/oHOlbOD',
   AUSTIN_THINK: 'https://imgur.com/NqiA6Da',
+  BED_WARS: 'https://imgur.com/a/OP5THi5',
+  BIRTHDAY: 'https://imgur.com/a/43omsB8',
   BLUE_BED: 'https://imgur.com/a/Wufpb1w',
+  ELIE_EVIL: 'https://imgur.com/a/cKcVUpG',
   ELIE_EXPLODE: 'https://imgur.com/a/J8UCmrs',
   ELIE_ICECREAM: 'https://imgur.com/a/A823bBo',
   GARRETT_BEDWARZ: 'https://imgur.com/a/ocQttGL',
+  GARRETT_BRAIN: 'https://imgur.com/a/GW6mCod',
   GREEN_BED: 'https://imgur.com/a/CH56sbR',
   KILLSTEAL: 'https://imgur.com/a/jtPmOnZ',
+  NO_U: 'https://imgur.com/gallery/S6DxhaX',
   PINK_APPLE: 'https://imgur.com/a/2CG3U45',
   POOP_BED: 'https://imgur.com/a/MH4cGFm',
   RED_BED: 'https://imgur.com/a/tcEzGmi',
   REN_ANIME: 'https://imgur.com/a/eOWeZEp',
   REN_EGG: 'https://media.giphy.com/media/y7Ee4XQFLA3ZpijcUU/giphy.gif',
   REN_MOMENT: 'https://imgur.com/a/m4fHG58',
+  REN_SILENCE: 'https://imgur.com/a/KKNwggV',
+  REN_WHY: 'https://imgur.com/a/q0guicX',
   SAYUJ_DEEPFRIED: 'https://imgur.com/a/TGxt4uD',
   SAYUJ_CONSPIRACY: 'https://imgur.com/a/WMHoThO',
   SAYUJ_FIREBALL: 'https://imgur.com/YAD8uEh',
@@ -80,6 +89,8 @@ app.post('/interactions', async function (req, res) {
         return handleBed(res, options);
       case 'killsteal':
         return handleKillsteal(res);
+      case 'no_u':
+        return handleNoU(res);
       case 'andrew':
         return handleAndrew(res, options);
       case 'arjun':
@@ -116,6 +127,8 @@ const handleBed = (res, options) => {
           return gifs.PINK_APPLE;
         case 'poop':
           return gifs.POOP_BED;
+        case 'wars':
+          return gifs.BED_WARS;
       }
     }
     return gifs.BLUE_BED;
@@ -138,6 +151,15 @@ const handleKillsteal = res => {
   });
 };
 
+const handleNoU = res => {
+  return res.send({
+    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+    data: {
+      content: gifs.NO_U,
+    },
+  });
+};
+
 const handleAndrew = (res, options) => {
   const gifFinder = val => {
     if (val && val[0] && val[0].value) {
@@ -146,6 +168,8 @@ const handleAndrew = (res, options) => {
           return gifs.ANDREW_ANSWER;
         case 'ball':
           return gifs.ANDREW_BALL;
+        case 'elie':
+          return gifs.ANDREW_VS_ELIE;
         case 'juice':
           return gifs.ANDREW_JUICE;
         case 'ignore':
@@ -211,8 +235,12 @@ const handleElie = (res, options) => {
   const gifFinder = val => {
     if (val && val[0] && val[0].value) {
       switch (val[0].value.toLowerCase()) {
+        case 'andrew':
+          return gifs.ANDREW_VS_ELIE;
         case 'ball':
           return gifs.ANDREW_BALL;
+        case 'evil':
+          return gifs.ELIE_EVIL;
         case 'explode':
           return gifs.ELIE_EXPLODE;
         case 'icecream':
@@ -236,9 +264,11 @@ const handleGarrett = (res, options) => {
       switch (val[0].value.toLowerCase()) {
         case 'bedwarz':
           return gifs.GARRETT_BEDWARZ;
+        case 'brain':
+          return gifs.GARRETT_BRAIN;
       }
     }
-    return gifs.GARRETT_BEDWARZ;
+    return gifs.GARRETT_BRAIN;
   };
 
   return res.send({
@@ -259,6 +289,10 @@ const handleRen = (res, options) => {
           return gifs.REN_EGG;
         case 'moment':
           return gifs.REN_MOMENT;
+        case 'silence':
+          return gifs.REN_SILENCE;
+        case 'why':
+          return gifs.REN_WHY;
       }
     }
     return gifs.REN_MOMENT;
@@ -313,6 +347,7 @@ app.listen(PORT, () => {
   HasGuildCommands(process.env.APP_ID, process.env.GUILD_ID, [
     BED_COMMAND,
     KILLSTEAL_COMMAND,
+    NO_U_COMMAND,
     ANDREW_COMMAND,
     ARJUN_COMMAND,
     AUSTIN_COMMAND,

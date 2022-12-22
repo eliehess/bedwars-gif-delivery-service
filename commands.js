@@ -53,6 +53,12 @@ export const KILLSTEAL_COMMAND = {
   type: 1,
 };
 
+export const NO_U_COMMAND = {
+  name: 'no_u',
+  descripton: 'no_u',
+  type: 1,
+};
+
 export const ANDREW_COMMAND = {
   name: 'andrew',
   descripton: 'andrew',
